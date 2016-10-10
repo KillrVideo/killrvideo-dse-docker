@@ -13,4 +13,4 @@ Get-Content "$scriptPath\VERSION" |% {
     }
 }
 
-docker build -t luketillman/datastax-enterprise:$DOCKER_BUILD_TAG .
+docker build -t killrvideo/killrvideo-dse:$DOCKER_BUILD_TAG .
