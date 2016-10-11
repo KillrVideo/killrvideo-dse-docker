@@ -10,5 +10,5 @@ RUN chmod +x /bootstrap.sh
 # Set the entrypoint to the bootstrap script
 ENTRYPOINT [ "/bootstrap.sh" ]
 
-# Run DSE in foreground mode by default
-CMD [ "dse", "cassandra", "-f" ]
+# Run DSE in search mode in the foreground by default
+CMD [ "dse", "cassandra", "-s", "-f" ]
