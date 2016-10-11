@@ -22,7 +22,13 @@ if [ "$1" = 'dse' -a "$2" = 'cassandra' ]; then
     /wait-for-it.sh -t 120 127.0.0.1:9042
     echo '=> DSE is available'
 
-    # TODO: Bootstrapping
+    # Create the keyspace if necessary
+    echo '=> Ensuring keyspace is created'
+    cqlsh -f /opt/killrvideo-data/keyspace.cql 127.0.0.1 9042
+
+    # Create the schema if necessary
+    echo '=> Ensuring schema is created'
+    cqlsh -f /opt/killrvideo-data/schema.cql -k killrvideo 127.0.0.1 9042
 
     # Shutdown DSE after bootstrapping to allow the entrypoint script to start normally
     echo '=> Shutting down DSE after bootstrapping'
