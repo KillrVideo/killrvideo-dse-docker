@@ -4,8 +4,8 @@ FROM luketillman/datastax-enterprise:4.8.10
 COPY [ "lib/killrvideo-data/schema.cql", "lib/killrvideo-data/search/*.xml", "/opt/killrvideo-data/" ]
 
 # Copy bootstrap script(s) and make executable
-COPY [ "bootstrap.sh", "/bootstrap.sh" ]
-RUN chmod +x /bootstrap.sh
+COPY [ "bootstrap.sh", "lib/wait-for-it/wait-for-it.sh", "/" ]
+RUN chmod +x /bootstrap.sh /wait-for-it.sh
 
 # Set the entrypoint to the bootstrap script
 ENTRYPOINT [ "/bootstrap.sh" ]
