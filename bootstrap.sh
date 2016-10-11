@@ -30,6 +30,25 @@ if [ "$1" = 'dse' -a "$2" = 'cassandra' ]; then
     echo '=> Ensuring schema is created'
     cqlsh -f /opt/killrvideo-data/schema.cql -k killrvideo 127.0.0.1 9042
 
+    # Create DSE Search core if necessary
+    echo '=> Ensuring DSE Search is configured'
+    search_action='reload'
+    
+    # Check for config (dsetool will return a message like 'No resource solrconfig.xml found for core XXX' if not created yet)
+    cfg="$(dsetool get_core_config killrvideo.videos)"
+    if [[ $cfg == "No resource"* ]]; then
+      search_action='create'
+    fi
+
+    # Create or reload core
+    if [ "$search_action" = 'create' ]; then
+      echo '=> Creating search core'
+      dsetool create_core killrvideo.videos schema=/opt/killrvideo-data/videos.schema.xml solrconfig=/opt/killrvideo-data/videos.solrconfig.xml
+    else
+      echo '=> Reloading search core'
+      dsetool reload_core killrvideo.videos schema=/opt/killrvideo-data/videos.schema.xml solrconfig=/opt/killrvideo-data/videos.solrconfig.xml
+    fi
+
     # Shutdown DSE after bootstrapping to allow the entrypoint script to start normally
     echo '=> Shutting down DSE after bootstrapping'
     kill -s TERM "$dse_pid"
