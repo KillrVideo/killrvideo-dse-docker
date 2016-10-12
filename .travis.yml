@@ -1,0 +1,19 @@
+# Sudo required for doing docker build
+sudo: required
+services:
+- docker
+
+# Build the docker image
+script:
+- ./build/docker-build.sh
+
+# If successful, see if we need to publish also
+after_success:
+- ./build/travis-publish.sh
+
+# Environment variables needed when publishing
+env:
+  global:
+  # DOCKER_USER
+  # DOCKER_EMAIL
+  # DOCKER_PASS
