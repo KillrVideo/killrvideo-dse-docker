@@ -6,6 +6,15 @@
 bootstrap the CQL and DSE Search resources needed by the [KillrVideo][killrvideo] app. Based
 on this [DSE image][dse-docker].
 
+## Builds and Releases
+
+The `./build` folder contains a number of scripts to help with builds and releases. Continuous
+integration builds are done by Travis and any commits that are tagged will also automatically
+be released to the [Docker Hub][docker-hub] page. We try to follow semantic versioning,
+however the version numbering is not related to what version of DSE we're using. For example,
+version `1.0.0` uses DSE version `4.8.10`.
+
 [dse]: http://www.datastax.com/products/datastax-enterprise
 [killrvideo]: https://killrvideo.github.io/
 [dse-docker]: https://github.com/LukeTillman/dse-docker
+[docker-hub]: https://hub.docker.com/r/killrvideo/killrvideo-dse/
