@@ -1,4 +1,4 @@
-FROM luketillman/datastax-enterprise:4.8.10
+FROM luketillman/datastax-enterprise:5.1.0
 
 # Copy schema files into /opt/killrvideo-data
 COPY [ "lib/killrvideo-data/schema.cql", "lib/killrvideo-data/search/*.xml", "keyspace.cql", "/opt/killrvideo-data/" ]
