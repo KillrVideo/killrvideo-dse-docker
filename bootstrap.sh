@@ -49,6 +49,15 @@ if [ "$1" = 'dse' -a "$2" = 'cassandra' ]; then
       dsetool reload_core killrvideo.videos schema=/opt/killrvideo-data/videos.schema.xml solrconfig=/opt/killrvideo-data/videos.solrconfig.xml
     fi
 
+    # Wait for port 8182 (Gremlin) to be ready for up to 120 seconds
+    echo '=> Waiting for DSE Graph to become available'
+    /wait-for-it.sh -t 120 127.0.0.1:8182
+    echo '=> DSE Graph is available'
+
+    # Create the graph if necessary
+    echo '=> Ensuring graph is created'
+    dse gremlin-console -e /opt/killrvideo-data/killrvideo_video_recommendations_schema.groovy
+
     # Shutdown DSE after bootstrapping to allow the entrypoint script to start normally
     echo '=> Shutting down DSE after bootstrapping'
     kill -s TERM "$dse_pid"

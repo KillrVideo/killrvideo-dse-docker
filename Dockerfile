@@ -1,7 +1,7 @@
 FROM luketillman/datastax-enterprise:5.1.0
 
 # Copy schema files into /opt/killrvideo-data
-COPY [ "lib/killrvideo-data/schema.cql", "lib/killrvideo-data/search/*.xml", "keyspace.cql", "/opt/killrvideo-data/" ]
+COPY [ "lib/killrvideo-data/graph/killrvideo_video_recommendations_schema.groovy", "lib/killrvideo-data/schema.cql", "lib/killrvideo-data/search/*.xml", "keyspace.cql", "/opt/killrvideo-data/" ]
 
 # Copy bootstrap script(s) and make executable
 COPY [ "bootstrap.sh", "lib/wait-for-it/wait-for-it.sh", "/" ]
@@ -11,4 +11,4 @@ RUN chmod +x /bootstrap.sh /wait-for-it.sh
 ENTRYPOINT [ "/bootstrap.sh" ]
 
 # Run DSE in search mode in the foreground by default
-CMD [ "dse", "cassandra", "-s", "-f" ]
+CMD [ "dse", "cassandra", "-s", "-g", "-f" ]
