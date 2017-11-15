@@ -3,23 +3,24 @@ set -e
 
 # First arg is `-f` or `--some-option` then prepend default dse command to option(s)
 if [ "${1:0:1}" = '-' ]; then
-  set -- dse cassandra -s -f "$@"
+  set -- dse cassandra -f "$@"
 fi
 
 # If we're starting DSE
 if [ "$1" = 'dse' -a "$2" = 'cassandra' ]; then
   # See if we've already completed bootstrapping
-  if [ ! -f /killrvideo_bootstrapped ]; then
+  if [ ! -f killrvideo_bootstrapped ]; then
     echo 'Setting up KillrVideo'
 
     # Invoke the entrypoint script to start DSE as a background job and get the pid
+    # starting DSE in the background the first time allows us to monitor progress and register schema
     echo '=> Starting DSE'
     /entrypoint.sh "$@" &
     dse_pid="$!"
 
-    # Wait for port 9042 (CQL) to be ready for up to 120 seconds
+    # Wait for port 9042 (CQL) to be ready for up to 240 seconds
     echo '=> Waiting for DSE to become available'
-    /wait-for-it.sh -t 120 127.0.0.1:9042
+    /wait-for-it.sh -t 240 127.0.0.1:9042
     echo '=> DSE is available'
 
     # Create the keyspace if necessary
@@ -72,7 +73,7 @@ if [ "$1" = 'dse' -a "$2" = 'cassandra' ]; then
     set -e
 
     # Don't bootstrap next time we start
-    touch /killrvideo_bootstrapped
+    touch killrvideo_bootstrapped
 
     # Now allow DSE to start normally below
     echo 'KillrVideo has been setup, starting DSE normally'

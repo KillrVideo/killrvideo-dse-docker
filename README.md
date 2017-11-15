@@ -4,7 +4,7 @@
 
 [DataStax Enterprise][dse] running in a Docker container. Contains startup scripts to 
 bootstrap the CQL and DSE Search resources needed by the [KillrVideo][killrvideo] app. Based
-on this [DSE image][dse-docker].
+on the official [DSE image][dse-docker] from the Docker Store.
 
 ## Builds and Releases
 
@@ -16,5 +16,5 @@ version `1.0.0` uses DSE version `4.8.10`, while version `2.0.0` uses DSE versio
 
 [dse]: http://www.datastax.com/products/datastax-enterprise
 [killrvideo]: https://killrvideo.github.io/
-[dse-docker]: https://github.com/LukeTillman/dse-docker
+[dse-docker]: https://store.docker.com/images/datastax
 [docker-hub]: https://hub.docker.com/r/killrvideo/killrvideo-dse/
