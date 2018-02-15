@@ -19,7 +19,7 @@ if [ -z "$CURRENT_TAG" ]; then
 fi
 
 # Make sure we have a user/pass
-if [[ -z "$DOCKER_USER" ]] || [[ -z "$DOCKER_PASS" ]]; then
+if [ -z "$DOCKER_USER" ] || [ -z "$DOCKER_PASS" ]; then
   echo "DOCKER_USER or DOCKER_PASS not set"
   exit 1
 fi
