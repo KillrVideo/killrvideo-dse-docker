@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 # First arg is `-f` or `--some-option` then prepend default dse command to option(s)
 if [ "${1:0:1}" = '-' ]; then
@@ -33,10 +32,11 @@ if [ "$1" = 'dse' -a "$2" = 'cassandra' ]; then
 
     # Create DSE Search core if necessary
     echo '=> Ensuring DSE Search is configured'
-    search_action='reload'
+    search_action='create'
     
     # Check for config (dsetool will return a message like 'No resource solrconfig.xml found for core XXX' if not created yet)
     cfg="$(dsetool get_core_config killrvideo.videos)"
+    echo "Result of initial search core check: $cfg"
     if [[ $cfg == "No resource"* ]]; then
       search_action='create'
     fi
