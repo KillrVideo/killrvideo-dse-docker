@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # First arg is `-f` or `--some-option` then prepend default dse command to option(s)
 if [ "${1:0:1}" = '-' ]; then
@@ -32,23 +33,7 @@ if [ "$1" = 'dse' -a "$2" = 'cassandra' ]; then
 
     # Create DSE Search core if necessary
     echo '=> Ensuring DSE Search is configured'
-    search_action='create'
-    
-    # Check for config (dsetool will return a message like 'No resource solrconfig.xml found for core XXX' if not created yet)
-    cfg="$(dsetool get_core_config killrvideo.videos)"
-    echo "Result of initial search core check: $cfg"
-    if [[ $cfg == "No resource"* ]]; then
-      search_action='create'
-    fi
-
-    # Create or reload core
-    if [ "$search_action" = 'create' ]; then
-      echo '=> Creating search core'
-      dsetool create_core killrvideo.videos schema=/opt/killrvideo-data/videos.schema.xml solrconfig=/opt/killrvideo-data/videos.solrconfig.xml
-    else
-      echo '=> Reloading search core'
-      dsetool reload_core killrvideo.videos schema=/opt/killrvideo-data/videos.schema.xml solrconfig=/opt/killrvideo-data/videos.solrconfig.xml
-    fi
+    cqlsh -f /opt/killrvideo-data/videos_search.cql -k killrvideo 127.0.0.1 9042
 
     # Wait for port 8182 (Gremlin) to be ready for up to 120 seconds
     echo '=> Waiting for DSE Graph to become available'
