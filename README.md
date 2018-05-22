@@ -1,4 +1,4 @@
-# KillrVideo DSE Docker
+# KillrVideo DSE Docker (Deprecated)
 
 [![Build Status](https://travis-ci.org/KillrVideo/killrvideo-dse-docker.svg?branch=master)](https://travis-ci.org/KillrVideo/killrvideo-dse-docker)
 
@@ -13,6 +13,8 @@ integration builds are done by Travis and any commits that are tagged will also 
 be released to the [Docker Hub][docker-hub] page. We try to follow semantic versioning,
 however the version numbering is not related to what version of DSE we're using. For example,
 version `1.0.0` uses DSE version `4.8.10`, while version `2.0.0` uses DSE version `5.1.0`.
+
+## Deprecated 
 
 Note: this image is no longer actively used in the KillrVideo project. Instead, KillrVideo configurations use the [official DataStax Server image][dse-server] without modification, and a separate image called [killrvideo-dse-config][killrvideo-dse-config] to perform schema loading.
 
